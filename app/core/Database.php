@@ -28,6 +28,4 @@ trait Database
 
         return false;
     }
-
-    
 }

@@ -11,6 +11,15 @@ Trait Model
         
         return $result;
     }
+	
+	public function getOne($id, $id_column = 'id')
+    {
+		$data[$id_column] = $id;
+		$query = "SELECT * FROM $this->table where $id_column = :$id_column ";
+        $result = $this->query($query, $data);
+        
+        return $result[0];
+    }
 
     public function insert($data)
 	{

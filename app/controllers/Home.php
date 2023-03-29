@@ -1,42 +1,67 @@
 <?php
 
-class Home {
+class Home
+{
 
     use Controller;
 
     public function index()
-    {   
+    {
         $product = new Product;
         $products = $product->getAll();
-        display($products);
-        $this->view('products');
+        $data['products'] = $products;
+        $this->view('products', $data);
     }
 
     public function create()
     {
         $this->view('create');
     }
-    
-    public function store($data)
+
+    public function store()
     {
+
+        $isChecked = (isset($_POST['is_checked'])) ? 1 : 0;
+        $data['title'] = $_POST['title'];
+        $data['description'] = $_POST['description'];
+        $data['is_checked'] = $isChecked;
+
         $product = new Product;
-        $product->insert($data);       
+        $product->insert($data);
+        
+        header('Location: '. ROOT . '/home');
     }
 
     public function edit()
-    {        
-        $this->view('edit');
-    }
-    
-    public function updateProduct($id, $data)
     {
+        $id = $_GET['id'];
         $product = new Product;
-        $product->update($id, $data);        
+        $productData = $product->getOne($id);
+        
+        $data['product'] = $productData;
+        $this->view('edit', $data);
     }
-    
-    public function deleteProduct($id)
+
+    public function update()
     {
+        $id = $_POST['id'];
+        $isChecked = (isset($_POST['is_checked'])) ? 1 : 0;
+        $data['title'] = $_POST['title'];
+        $data['description'] = $_POST['description'];
+        $data['is_checked'] = $isChecked;
+
         $product = new Product;
-        $product->delete($id);        
+        $product->update($id, $data);
+        
+        header('Location: '. ROOT . '/home');
+    }
+
+    public function delete()
+    {
+        $id = $_GET['id'];
+        $product = new Product;
+        $product->delete($id);
+
+        header('Location: '. ROOT . '/home');
     }
 }

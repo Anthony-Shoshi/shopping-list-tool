@@ -1,8 +1,8 @@
 <?php
 
-class Database
+trait Database
 {
-    public function connect()
+    private function connect()
     {
         $options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -28,4 +28,6 @@ class Database
 
         return false;
     }
+
+    
 }
